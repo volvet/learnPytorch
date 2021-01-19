@@ -80,6 +80,24 @@ def test_neural():
   print(linear_model.weight)
   print(linear_model.bias)
   
+  seq_model = nn.Sequential(
+              nn.Linear(1, 13),
+              nn.Tanh(),
+              nn.Linear(13, 1))
+  print(seq_model)
+  print([param.shape for param in seq_model.parameters()])
+  optimizer = optim.SGD(seq_model.parameters(), lr=1e-3)
+  training_loop(n_epochs = 5000,
+                optimizer = optimizer,
+                model = seq_model,
+                loss_fn = loss_fn,
+                t_u_train = t_un_train,
+                t_u_val = t_un_val, 
+                t_c_train = t_c_train,
+                t_c_val = t_c_val)
+  print('output', seq_model(t_un_val))
+  print('answer', t_c_val)
+  
 
 if __name__ == '__main__':
   torch.set_printoptions(edgeitems=2, linewidth=75)
